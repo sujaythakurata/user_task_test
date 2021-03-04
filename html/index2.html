@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User</title>
+	<meta charset="utf-8">
+	 <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="user" ng-controller = "user_ctrl">
+	<div class="container-fluid">
+		<div class="row next-form">
+		<form action="/" method="post" enctype="multipart/form-data">
+		  <div class="input-group">
+		    <span class="input-group-addon">Date Of Birath</span>
+		    <input id="msg" type="date" class="form-control" name="msg"  ng-model = 'dob'>
+		  </div>
+		  <div class="input-group">
+		    <span class="input-group-addon">Profile Picture</span>
+		    <input id="pic" type="file" name="file" class="form-control"   ng-model = 'file' accept="image/*" />
+		  </div>
+		  <button type="submit" value ="upload" class="btn btn-info">Submit</button>
+		</form> 
+		</div>
+	</div>
+
+
+
+
+<script type="text/javascript">
+	
+	window.onload = ()=>{
+		const app = angular.module('user', []);
+		app.controller('user_ctrl', ["$scope", function($scope){
+			$scope.email = '';
+			$scope.name = '';
+			$scope.password = '';
+			$scope.loggedin = true;
+			/*$scope.submit = ()=>{
+				console.log($scope.user_form);
+				let obj = {
+					name:$scope.name,
+					email:$scope.email,
+					password:$scope.password
+				}
+				console.log(obj);
+				$.ajax({
+					url:"http://localhost:3000/api/createuser",
+					method:'POST',
+					data:obj,
+					type:'json',
+					success:(data)=>{
+						console.log(data);
+						if(data.auth){
+							$scope.loggedin = false;
+							$scope.$apply();
+						}
+						document.cookie =data;
+						$(".user_form").hide();
+					},
+					error: (err)=>{console.log(err)}
+				})
+			}*/
+			$scope.user_profile = ()=>{
+				let obj = {
+					file:$("#pic").val(),
+					dob:$scope.dob,
+				}
+
+				console.log(obj, $("#pic").val(),document.getElementById("pic").value);
+				$.ajax({
+					url:"http://localhost:3000/api/userinfo",
+					method:'POST',
+					data:obj,
+					type:'json',
+					success:(data)=>{
+						console.log(data);
+					},
+					error: (err)=>{console.log(err)}
+				})
+			}
+			
+			$scope.show_next_menu = ()=>{
+				alert("here");
+				console.log($scope);
+			}
+		}]);
+	};
+
+</script>
+</body>
+</html>
